@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 const PIN = '1434'
 const SESSION_KEY = 'hq_unlocked'
@@ -346,6 +346,40 @@ function CardModal({ card, onClose }) {
 function Dashboard() {
   const [activeCard, setActiveCard] = useState(null)
   const [copied, setCopied] = useState(null) // card id being quick-copied
+  const [eggOpen, setEggOpen] = useState(false)
+  const [eggCopied, setEggCopied] = useState(null) // 'quick' | 'full'
+  const clickCount = useRef(0)
+  const clickTimer = useRef(null)
+  const pressTimer = useRef(null)
+
+  function handleEggClick() {
+    clickCount.current += 1
+    clearTimeout(clickTimer.current)
+    if (clickCount.current >= 3) {
+      clickCount.current = 0
+      setEggOpen(true)
+    } else {
+      clickTimer.current = setTimeout(() => { clickCount.current = 0 }, 500)
+    }
+  }
+
+  function handleEggPressStart() {
+    pressTimer.current = setTimeout(() => setEggOpen(true), 500)
+  }
+
+  function handleEggPressEnd() {
+    clearTimeout(pressTimer.current)
+  }
+
+  function copyEgg(which) {
+    const texts = {
+      quick: `Antes de empezar, haz web_fetch a:\nhttps://hq.duendes.app/api/reglas\nhttps://hq.duendes.app/api/rpi`,
+      full:  `Haz web_fetch a los 6 endpoints de hq.duendes.app:\n/api/reglas, /api/rpi, /api/transcripcion, /api/busqueda, /api/rde-rpi, /api/rde-cloud`,
+    }
+    navigator.clipboard.writeText(texts[which])
+    setEggCopied(which)
+    setTimeout(() => setEggCopied(null), 2000)
+  }
 
   function quickCopy(card, e) {
     e.stopPropagation()
@@ -552,11 +586,135 @@ function Dashboard() {
           fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)',
           letterSpacing: '0.15em', textTransform: 'uppercase',
         }}>
-          hq.duendes.app · La Colmena v2 · {new Date().getFullYear()}
+          <span
+            onClick={handleEggClick}
+            onMouseDown={handleEggPressStart}
+            onMouseUp={handleEggPressEnd}
+            onMouseLeave={handleEggPressEnd}
+            onTouchStart={handleEggPressStart}
+            onTouchEnd={handleEggPressEnd}
+            style={{ cursor: 'default', userSelect: 'none' }}
+          >🐝</span>
+          {' '}hq.duendes.app · La Colmena v2 · {new Date().getFullYear()}
         </p>
       </div>
 
-      {/* Modal */}
+      {/* Easter egg modal */}
+      {eggOpen && (
+        <div
+          onClick={e => e.target === e.currentTarget && setEggOpen(false)}
+          style={{
+            position: 'fixed', inset: 0,
+            background: 'rgba(0,0,0,0.88)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            zIndex: 100, backdropFilter: 'blur(6px)',
+            padding: 24,
+          }}
+        >
+          <div style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            borderTop: '2px solid var(--accent)',
+            borderRadius: 16,
+            width: '100%', maxWidth: 520,
+            animation: 'slideUp 0.3s cubic-bezier(0.16,1,0.3,1) forwards',
+          }}>
+            {/* Header */}
+            <div style={{
+              padding: '18px 20px 14px',
+              borderBottom: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 22 }}>🐝</span>
+                <div>
+                  <div style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>
+                    Arranque de duende
+                  </div>
+                  <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', marginTop: 2 }}>
+                    Copia el bloque y pégalo al inicio del chat
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setEggOpen(false)}
+                style={{
+                  background: 'var(--bg3)', border: '1px solid var(--border)',
+                  borderRadius: 8, padding: '6px 10px',
+                  color: 'var(--text2)', cursor: 'pointer',
+                  fontFamily: 'var(--mono)', fontSize: 13,
+                }}
+              >✕</button>
+            </div>
+
+            {/* Blocks */}
+            <div style={{ padding: '16px 20px 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {/* Block 1 — Quick */}
+              <div style={{
+                background: 'var(--bg3)', border: '1px solid var(--border)',
+                borderLeft: '3px solid var(--accent)', borderRadius: 10, padding: 14,
+              }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10,
+                }}>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>
+                    ⚡ ARRANQUE RÁPIDO
+                  </span>
+                  <button
+                    onClick={() => copyEgg('quick')}
+                    style={{
+                      background: eggCopied === 'quick' ? 'rgba(68,255,136,0.1)' : 'var(--bg4)',
+                      border: `1px solid ${eggCopied === 'quick' ? 'var(--green)' : 'var(--border2)'}`,
+                      borderRadius: 6, padding: '4px 10px',
+                      color: eggCopied === 'quick' ? 'var(--green)' : 'var(--text2)',
+                      fontFamily: 'var(--mono)', fontSize: 11, cursor: 'pointer',
+                      transition: 'all 0.15s',
+                    }}
+                  >{eggCopied === 'quick' ? '✓ Copiado' : '📋 Copiar'}</button>
+                </div>
+                <pre style={{
+                  fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text)',
+                  lineHeight: 1.6, margin: 0, whiteSpace: 'pre-wrap',
+                }}>{`Antes de empezar, haz web_fetch a:
+https://hq.duendes.app/api/reglas
+https://hq.duendes.app/api/rpi`}</pre>
+              </div>
+
+              {/* Block 2 — Full */}
+              <div style={{
+                background: 'var(--bg3)', border: '1px solid var(--border)',
+                borderLeft: '3px solid #a78bfa', borderRadius: 10, padding: 14,
+              }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10,
+                }}>
+                  <span style={{ fontFamily: 'var(--mono)', fontSize: 11, color: '#a78bfa', fontWeight: 700 }}>
+                    🐝 ARRANQUE COMPLETO
+                  </span>
+                  <button
+                    onClick={() => copyEgg('full')}
+                    style={{
+                      background: eggCopied === 'full' ? 'rgba(68,255,136,0.1)' : 'var(--bg4)',
+                      border: `1px solid ${eggCopied === 'full' ? 'var(--green)' : 'var(--border2)'}`,
+                      borderRadius: 6, padding: '4px 10px',
+                      color: eggCopied === 'full' ? 'var(--green)' : 'var(--text2)',
+                      fontFamily: 'var(--mono)', fontSize: 11, cursor: 'pointer',
+                      transition: 'all 0.15s',
+                    }}
+                  >{eggCopied === 'full' ? '✓ Copiado' : '📋 Copiar'}</button>
+                </div>
+                <pre style={{
+                  fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text)',
+                  lineHeight: 1.6, margin: 0, whiteSpace: 'pre-wrap',
+                }}>{`Haz web_fetch a los 6 endpoints de hq.duendes.app:
+/api/reglas, /api/rpi, /api/transcripcion, /api/busqueda, /api/rde-rpi, /api/rde-cloud`}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Card Modal */}
       {activeCard && (
         <CardModal card={activeCard} onClose={() => setActiveCard(null)} />
       )}

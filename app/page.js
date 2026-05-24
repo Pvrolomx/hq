@@ -43,6 +43,24 @@ const CARDS = [
     endpoint: '/api/busqueda',
     description: 'Cuándo usar cada herramienta. Reglas de query, paginación, casos de borde.',
   },
+  {
+    id: 'rde-rpi',
+    icon: '🐝',
+    title: 'Reglas de Ejecución — RPi',
+    subtitle: 'REGLAS_DE_EJECUCION_RPI_v1.md · 16 reglas + notas',
+    color: '#a78bfa',
+    endpoint: '/api/rde-rpi',
+    description: 'Reglas de construcción de apps, arquitectura Colmena, listeners TCP, patrones de error, lecciones aprendidas.',
+  },
+  {
+    id: 'rde-cloud',
+    icon: '☁️',
+    title: 'Reglas de Ejecución — Cloud',
+    subtitle: 'REGLAS_DE_EJECUCION_CLOUD_v1.md',
+    color: '#60a5fa',
+    endpoint: '/api/rde-cloud',
+    description: 'Deploy autónomo, arquitectura híbrida, env vars via API, flujo SPEC→CODE→GITHUB→VERCEL.',
+  },
 ]
 
 // ─── PIN Screen ───────────────────────────────────────────────────────────────
@@ -378,12 +396,12 @@ function Dashboard() {
             fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)',
             background: 'var(--bg3)', border: '1px solid var(--border)',
             padding: '2px 8px', borderRadius: 4, letterSpacing: '0.1em',
-          }}>MVP v1.0</span>
+          }}>MVP v1.1</span>
           <span style={{
             fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--accent)',
             background: 'rgba(212,255,0,0.08)', border: '1px solid rgba(212,255,0,0.2)',
             padding: '2px 8px', borderRadius: 4,
-          }}>4 módulos activos</span>
+          }}>6 módulos activos</span>
         </div>
       </div>
 

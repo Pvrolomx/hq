@@ -348,6 +348,7 @@ function Dashboard() {
   const [copied, setCopied] = useState(null) // card id being quick-copied
   const [eggOpen, setEggOpen] = useState(false)
   const [eggCopied, setEggCopied] = useState(null) // 'quick' | 'full'
+  const [navCopied, setNavCopied] = useState(false)
   const clickCount = useRef(0)
   const clickTimer = useRef(null)
   const pressTimer = useRef(null)
@@ -435,7 +436,7 @@ function Dashboard() {
             fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--accent)',
             background: 'rgba(212,255,0,0.08)', border: '1px solid rgba(212,255,0,0.2)',
             padding: '2px 8px', borderRadius: 4,
-          }}>6 módulos activos</span>
+          }}>7 módulos activos</span>
         </div>
       </div>
 
@@ -578,6 +579,78 @@ function Dashboard() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Tarjeta estática — Navegación Legislativa — ancho completo */}
+      <div style={{ padding: '0 24px', maxWidth: 1000, margin: '16px auto 0' }}>
+        <div
+          style={{
+            background: 'var(--bg2)',
+            border: '1px solid var(--border)',
+            borderLeft: '3px solid #34d399',
+            borderRadius: 14,
+            padding: 20,
+            animation: 'slideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
+          }}
+        >
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 28 }}>🔍</span>
+              <div>
+                <div style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 15, color: 'var(--text)', lineHeight: 1.2 }}>
+                  Protocolo: Navegación Legislativa Rápida
+                </div>
+                <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
+                  URL directa · sin índices · multijurisdicción
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                const txt = `El patrón universal\n[dominio-base]/[identificador-ley]/section-[N].html\n\nSitios verificados:\n🇨🇦 Canadá — laws-lois.justice.gc.ca → .../acts/I-3.3/section-[N].html\n🇲🇽 México — leyes-mx.com → .../ley_del_impuesto_sobre_la_renta/[N].htm\n🇲🇽 México — mexico.justia.com → .../titulo-v/\n🇺🇸 EUA — law.cornell.edu → .../uscode/text/[título]/[sección]\n🇺🇸 IRS — irs.gov/irb → .../[año]-[número]_IRB\n\nFlujo:\n1. Identifica dominio oficial del país\n2. Construye URL directo — nunca navegues el índice\n3. Ctrl+F en la página para el artículo exacto\n4. Copia solo lo relevante → NotebookLM o Colmena\n\nRegla de oro: El índice es para quien no sabe qué busca.\nTú siempre sabes qué busca → URL directo.\n\nTiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`
+                navigator.clipboard.writeText(txt)
+                setNavCopied(true)
+                setTimeout(() => setNavCopied(false), 2000)
+              }}
+              style={{
+                background: navCopied ? 'rgba(68,255,136,0.1)' : 'var(--bg4)',
+                border: `1px solid ${navCopied ? 'var(--green)' : 'var(--border2)'}`,
+                borderRadius: 8, padding: '8px 14px',
+                color: navCopied ? 'var(--green)' : 'var(--text2)',
+                fontFamily: 'var(--mono)', fontWeight: 700, fontSize: 12,
+                cursor: 'pointer', transition: 'all 0.15s', whiteSpace: 'nowrap',
+              }}
+            >
+              {navCopied ? '✓ Copiado' : '📋 Copiar'}
+            </button>
+          </div>
+
+          {/* Content */}
+          <pre style={{
+            fontFamily: 'var(--mono)', fontSize: 12, color: 'var(--text2)',
+            lineHeight: 1.75, margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+          }}>{`El patrón universal
+[dominio-base]/[identificador-ley]/section-[N].html
+
+Sitios verificados:
+🇨🇦 Canadá — laws-lois.justice.gc.ca → .../acts/I-3.3/section-[N].html
+🇲🇽 México — leyes-mx.com → .../ley_del_impuesto_sobre_la_renta/[N].htm
+🇲🇽 México — mexico.justia.com → .../titulo-v/
+🇺🇸 EUA — law.cornell.edu → .../uscode/text/[título]/[sección]
+🇺🇸 IRS — irs.gov/irb → .../[año]-[número]_IRB
+
+Flujo:
+1. Identifica dominio oficial del país
+2. Construye URL directo — nunca navegues el índice
+3. Ctrl+F en la página para el artículo exacto
+4. Copia solo lo relevante → NotebookLM o Colmena
+
+Regla de oro: El índice es para quien no sabe qué busca.
+Tú siempre sabes qué busca → URL directo.
+
+Tiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`}</pre>
+        </div>
       </div>
 
       {/* Footer */}

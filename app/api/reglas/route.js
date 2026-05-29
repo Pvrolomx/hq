@@ -168,16 +168,15 @@ recent_chats → por tiempo.
 REGLA 25 — ZOFEMAT / FIDENCIO (casos activos)
 Amparo directo contra pérdida sept 2025 → ZOFEMAT concesión expansión.
 TFJA 25/26-EAR-01-3: nulidad para efectos (favorable pero limitada).
-Familia opera Fidencio's en Playa de los Muertos desde ~1979.`
+Familia opera Fidencio's en Playa de los Muertos desde ~1979.
 
-
-
----
-
-## REGLA EAL-Editorial-1 — CITAS JURIDICAS EN CONTENIDO EDITORIAL
+REGLA EAL-Editorial-1 — CITAS JURÍDICAS EN CONTENIDO EDITORIAL
 Agregado: 28 Mayo 2026 | Scope: Blog expatadvisormx.com — tres idiomas (ES/EN/FR)
 
-Toda afirmacion que invoque la existencia de jurisprudencia, tesis, o precedente debe ir acompanada de cita verificable (rubro + registro IUS/SJF) o reformularse como cita directa al articulo de ley aplicable. Si no se puede citar, no se afirma. Aplicable a los tres idiomas antes del primer push.
+Toda afirmación que invoque la existencia de jurisprudencia, tesis, o precedente
+debe ir acompañada de cita verificable (rubro + registro IUS/SJF) o reformularse
+como cita directa al artículo de ley aplicable. Si no se puede citar, no se afirma.
+Aplicable a los tres idiomas antes del primer push.`
 
   return Response.json({ content })
 }

@@ -612,7 +612,7 @@ function Dashboard() {
             <button
               onClick={() => {
                 const txt = `El patrón universal\n[dominio-base]/[identificador-ley]/section-[N].html\n\nSitios verificados:\n🇨🇦 Canadá — laws-lois.justice.gc.ca → .../acts/I-3.3/section-[N].html\n🇲🇽 México — leyes-mx.com → .../ley_del_impuesto_sobre_la_renta/[N].htm\n🇲🇽 México — mexico.justia.com → .../titulo-v/\n🇺🇸 EUA — law.cornell.edu → .../uscode/text/[título]/[sección]\n🇺🇸 IRS — irs.gov/irb → .../[año]-[número]_IRB
-🇲🇽 SCJN IUS — ius.scjn.gob.mx → .../DetalleGeneralScroll.aspx?id=[REGISTRO]\n\nFlujo:\n1. Identifica dominio oficial del país\n2. Construye URL directo — nunca navegues el índice\n3. Ctrl+F en la página para el artículo exacto\n4. Copia solo lo relevante → NotebookLM o Colmena\n\nRegla de oro: El índice es para quien no sabe qué busca.\nTú siempre sabes qué busca → URL directo.\n\nTiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`
+🇲🇽 SCJN SJF2 — sjf2.scjn.gob.mx → .../detalle/tesis/[REGISTRO]\n\nFlujo:\n1. Identifica dominio oficial del país\n2. Construye URL directo — nunca navegues el índice\n3. Ctrl+F en la página para el artículo exacto\n4. Copia solo lo relevante → NotebookLM o Colmena\n\nRegla de oro: El índice es para quien no sabe qué busca.\nTú siempre sabes qué busca → URL directo.\n\nTiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`
                 navigator.clipboard.writeText(txt)
                 setNavCopied(true)
                 setTimeout(() => setNavCopied(false), 2000)
@@ -643,7 +643,7 @@ Sitios verificados:
 🇲🇽 México — mexico.justia.com → .../titulo-v/
 🇺🇸 EUA — law.cornell.edu → .../uscode/text/[título]/[sección]
 🇺🇸 IRS — irs.gov/irb → .../[año]-[número]_IRB
-🇲🇽 SCJN IUS — ius.scjn.gob.mx → .../DetalleGeneralScroll.aspx?id=[REGISTRO]
+🇲🇽 SCJN SJF2 — sjf2.scjn.gob.mx → .../detalle/tesis/[REGISTRO]
 
 Flujo:
 1. Identifica dominio oficial del país
@@ -689,7 +689,7 @@ Tiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`}</pre>
               flag:    '🇲🇽',
               label:   'SCJN Jurisprudencia',
               hint:    'Registro IUS (ej. 2030702)',
-              prefix:  'https://ius.scjn.gob.mx/paginas/DetalleGeneralScroll.aspx?id=',
+              prefix:  'https://sjf2.scjn.gob.mx/detalle/tesis/',
               color:   '#f59e0b',
             },
           ].map(src => {

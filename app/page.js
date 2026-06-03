@@ -349,6 +349,9 @@ function Dashboard() {
   const [eggOpen, setEggOpen] = useState(false)
   const [eggCopied, setEggCopied] = useState(null) // 'quick' | 'full'
   const [navCopied, setNavCopied] = useState(false)
+  // URL builder state — one entry per source, extensible
+  const [urlInputs, setUrlInputs] = useState({})   // { sourceId: inputValue }
+  const [urlCopied, setUrlCopied] = useState(null)  // sourceId being copied
   const clickCount = useRef(0)
   const clickTimer = useRef(null)
   const pressTimer = useRef(null)
@@ -436,7 +439,7 @@ function Dashboard() {
             fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--accent)',
             background: 'rgba(212,255,0,0.08)', border: '1px solid rgba(212,255,0,0.2)',
             padding: '2px 8px', borderRadius: 4,
-          }}>7 módulos activos</span>
+          }}>8 módulos activos</span>
         </div>
       </div>
 
@@ -652,6 +655,142 @@ Regla de oro: El índice es para quien no sabe qué busca.
 Tú siempre sabes qué busca → URL directo.
 
 Tiempo: Navegar índice = 20-40 min | URL directa = 2-5 min`}</pre>
+        </div>
+      </div>
+
+
+      {/* Tarjeta dinámica — URLs de Acceso Rápido — extensible */}
+      <div style={{ padding: '0 24px', maxWidth: 1000, margin: '16px auto 0' }}>
+        <div style={{
+          background: 'var(--bg2)',
+          border: '1px solid var(--border)',
+          borderLeft: '3px solid #f59e0b',
+          borderRadius: 14,
+          padding: 20,
+          animation: 'slideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
+        }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+            <span style={{ fontSize: 28 }}>🔗</span>
+            <div>
+              <div style={{ fontFamily: 'var(--sans)', fontWeight: 700, fontSize: 15, color: 'var(--text)', lineHeight: 1.2 }}>
+                URLs de Acceso Rápido
+              </div>
+              <div style={{ fontFamily: 'var(--mono)', fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
+                Escribe el ID · la URL se construye sola
+              </div>
+            </div>
+          </div>
+
+          {/* URL sources — array extensible */}
+          {[
+            {
+              id:      'scjn',
+              flag:    '🇲🇽',
+              label:   'SCJN Jurisprudencia',
+              hint:    'Registro IUS (ej. 2030702)',
+              prefix:  'https://ius.scjn.gob.mx/paginas/DetalleGeneralScroll.aspx?id=',
+              color:   '#f59e0b',
+            },
+          ].map(src => {
+            const val     = urlInputs[src.id] || ''
+            const fullUrl = val.trim() ? src.prefix + val.trim() : ''
+            const isCopied = urlCopied === src.id
+
+            return (
+              <div key={src.id} style={{
+                background: 'var(--bg3)',
+                border: '1px solid var(--border)',
+                borderRadius: 10,
+                padding: '12px 14px',
+                marginBottom: 8,
+              }}>
+                {/* Source label */}
+                <div style={{
+                  fontFamily: 'var(--mono)', fontSize: 11, color: src.color,
+                  fontWeight: 700, marginBottom: 10,
+                }}>
+                  {src.flag} {src.label}
+                </div>
+
+                {/* Input row */}
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    value={val}
+                    placeholder={src.hint}
+                    onChange={e => setUrlInputs(prev => ({ ...prev, [src.id]: e.target.value }))}
+                    style={{
+                      flex: '1 1 140px',
+                      background: 'var(--bg4)',
+                      border: `1px solid ${val ? src.color : 'var(--border2)'}`,
+                      borderRadius: 7,
+                      padding: '8px 12px',
+                      color: 'var(--text)',
+                      fontFamily: 'var(--mono)',
+                      fontSize: 13,
+                      outline: 'none',
+                      transition: 'border-color 0.15s',
+                      minWidth: 0,
+                    }}
+                  />
+
+                  {/* Copy button */}
+                  <button
+                    onClick={() => {
+                      if (!fullUrl) return
+                      navigator.clipboard.writeText(fullUrl)
+                      setUrlCopied(src.id)
+                      setTimeout(() => setUrlCopied(null), 2000)
+                    }}
+                    disabled={!fullUrl}
+                    style={{
+                      background: isCopied ? 'rgba(68,255,136,0.1)' : 'var(--bg4)',
+                      border: `1px solid ${isCopied ? 'var(--green)' : fullUrl ? 'var(--border2)' : 'var(--border)'}`,
+                      borderRadius: 7, padding: '8px 12px',
+                      color: isCopied ? 'var(--green)' : fullUrl ? 'var(--text2)' : 'var(--text3)',
+                      fontFamily: 'var(--mono)', fontSize: 12,
+                      cursor: fullUrl ? 'pointer' : 'default',
+                      transition: 'all 0.15s', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {isCopied ? '✓ Copiada' : '📋 Copiar'}
+                  </button>
+
+                  {/* Open link button */}
+                  <a
+                    href={fullUrl || undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={e => { if (!fullUrl) e.preventDefault() }}
+                    style={{
+                      background: 'var(--bg4)',
+                      border: `1px solid ${fullUrl ? src.color : 'var(--border)'}`,
+                      borderRadius: 7, padding: '8px 11px',
+                      color: fullUrl ? src.color : 'var(--text3)',
+                      fontFamily: 'var(--mono)', fontSize: 13,
+                      textDecoration: 'none',
+                      cursor: fullUrl ? 'pointer' : 'default',
+                      transition: 'all 0.15s',
+                    }}
+                    title="Abrir en nueva pestaña"
+                  >🔗</a>
+                </div>
+
+                {/* URL preview */}
+                {fullUrl && (
+                  <div style={{
+                    marginTop: 8,
+                    fontFamily: 'var(--mono)', fontSize: 10,
+                    color: 'var(--text3)', wordBreak: 'break-all',
+                    lineHeight: 1.5,
+                  }}>
+                    <span style={{ color: src.color }}>→ </span>{fullUrl}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       </div>
 

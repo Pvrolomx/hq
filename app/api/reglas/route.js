@@ -176,9 +176,7 @@ Agregado: 28 Mayo 2026 | Scope: Blog expatadvisormx.com — tres idiomas (ES/EN/
 Toda afirmación que invoque la existencia de jurisprudencia, tesis, o precedente
 debe ir acompañada de cita verificable (rubro + registro IUS/SJF) o reformularse
 como cita directa al artículo de ley aplicable. Si no se puede citar, no se afirma.
-Aplicable a los tres idiomas antes del primer push.`
-
-
+Aplicable a los tres idiomas antes del primer push.
 
 ---
 
@@ -186,10 +184,10 @@ Aplicable a los tres idiomas antes del primer push.`
 Agregado: 14 Jun 2026 | Scope: Blog Expat Advisor MX, landing, modal servicios, intro cards, serie planificacion patrimonial B y C.
 Caso de origen: Articulo A /blog/fallecio-titular-fideicomiso-costa-mexico/ (jun 2026).
 
-Toda recomendacion operativa al lector debe especificar quien es el sujeto activo de la accion. Cuando un articulo plantee "verifica si X tiene Y", el autor debe confirmar que el lector es quien razonablemente puede ejecutar esa verificacion. Si la accion depende de informacion que solo X conoce, replantear como "asegurate de tener Y" o "pregunta a X por Y" — siempre con el lector como sujeto activo.
+Toda recomendacion operativa al lector debe especificar quien es el sujeto activo de la accion. Cuando un articulo plantee verifique si X tiene Y, el autor debe confirmar que el lector es quien razonablemente puede ejecutar esa verificacion. Si la accion depende de informacion que solo X conoce, replantear como asegurate de tener Y o pregunta a X por Y — siempre con el lector como sujeto activo.
 
-Ejemplo incorrecto: "¿sabe el banco a quien contactar?" (verificacion imposible para el lector)
-Ejemplo correcto: "¿sabes tu a quien contactar en el banco?" (accion ejecutable por el lector)
+Ejemplo incorrecto: sabe el banco a quien contactar (verificacion imposible para el lector)
+Ejemplo correcto: sabes tu a quien contactar en el banco (accion ejecutable por el lector)`
 
   return Response.json({ content })
 }

@@ -187,6 +187,36 @@ Toda recomendacion operativa al lector debe especificar quien es el sujeto activ
 
 Ejemplo incorrecto: sabe el banco a quien contactar (verificacion imposible para el lector)
 Ejemplo correcto: sabes tu a quien contactar en el banco (accion ejecutable por el lector)
+
+
+---
+
+REGLA EAL-Editorial-3 — CALIBRACION DE CITACION POR TIPO DE ARTICULO
+Agregado: 14 Jun 2026 | Scope: Blog Expat Advisor MX y futuros subsistemas de contenido Colmena.
+Caso de origen: Patron observado en tres articulos en produccion (jun 2026). Formalizado tras pregunta de CD05 Standby sobre corpus de citas para Articulo B.
+
+EAL-Editorial-1 aplica uniformemente. El grado de citacion visible se decide al armar el HO de cada articulo, segun tres tipos:
+
+TIPO A — Decision estructural/tecnica
+Ejemplos: estructuras corporativas (LLC, S corp), ISR, planificacion fiscal sucesoral.
+Audiencia: cliente que comparte con CPA, abogado o family office — el asesor necesita verificar.
+Citacion: ley, tratado, seccion o articulo con numerito explicito.
+Ejemplo en produccion: LLC/foreign-entity — cita FAPI x41, Section 94 x6, Income Tax Act.
+
+TIPO B — Norma especifica del consumidor
+Ejemplos: preconstruccion (NOM-247), garantias inmobiliarias, derechos del consumidor.
+Audiencia: comprador directo que podria invocar la norma.
+Citacion: norma especifica relevante y ley federal aplicable; resto del texto plano.
+Ejemplo en produccion: Preconstruccion — cita NOM-247, PROFECO, art. 87 LFPC.
+
+TIPO C — Que hacer ahora / orientacion practica
+Ejemplos: fallecio titular fideicomiso, fideicomisario sustituto, que hacer si me pierdo en el tramite.
+Audiencia: lego en duelo o planificacion informal — lector de San Agustin.
+Citacion: cero numeritos en texto publico. Respaldo citable vive en notas internas del Arquitecto.
+Ejemplo en produccion: Articulo A fallecio titular — cero numeritos.
+
+La asignacion de tipo se hace al armar el HO, no despues.
+EAL-Editorial-1 sigue aplicando: si se cita, debe ser verificable; si no se cita, no se inventa.
 `
 
   return Response.json({ content })

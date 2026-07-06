@@ -28,8 +28,11 @@ Si a mitad aparece algo destructivo no listado, PARA y repórtalo antes de hacer
 
 PROTOCOLO CASTLE (rama de producción):
 Rama de trabajo: [RAMA-DE-TRABAJO].
-Rama de producción: [RAMA-PRODUCCIÓN — "main" en la mayoría; "production" en castle-checkin/castle-ops. VERIFICAR cuál aplica].
-NUNCA push a producción sin OK explícito del Arquitecto. Desarrolla en rama de trabajo (genera preview); merge a producción SOLO con visto bueno explícito.
+Rama de producción: [RAMA-PRODUCCIÓN]. VERIFICA la Production Branch REAL del repo en Vercel antes de asumir — NO todos los repos siguen el patrón genérico:
+  · castle-checkin / castle-ops: producción = "production" (push a main = solo preview).
+  · hq: producción = "main" (Vercel Production Branch = main; un push a main de hq va DIRECTO al dominio vivo hq.duendes.app, NO es preview). La rama "production" existe pero NO alimenta el dominio.
+  · mayoría de repos: producción = "main".
+NUNCA push a la rama de producción sin OK explícito del Arquitecto. Si el repo despliega desde main, entonces un push a main YA es producción — trátalo con el mismo cuidado que un merge a production en repos Castle.
 
 REGLAS DURAS DEL SUBSISTEMA [rellenar]:
 [BLOG: preservar <em>/<strong> y estructura data-lang / objeto T; contenido creativo llega YA cerrado, CC maqueta no traduce; glosario FR fijado.]
